@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Transcriber</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel" aria-labelledby="app-title">
+        <header class="topbar">
+          <h1 id="app-title">Video Transcriber</h1>
+          <span id="healthBadge" class="badge">Checking</span>
+        </header>
+
+        <form id="transcribeForm" class="form">
+          <label id="dropZone" class="file-picker" for="fileInput">
+            <input id="fileInput" type="file" accept=".mp4,.mkv,.mov,.webm,.mp3" hidden />
+            <strong>Choose Video</strong>
+            <span>Drop a media file here or click to browse</span>
+          </label>
+
+          <div id="fileMeta" class="file-meta">No file selected</div>
+
+          <div class="settings">
+            <label>
+              <span>Model</span>
+              <select id="modelSelect">
+                <option value="tiny">tiny</option>
+                <option value="base">base</option>
+                <option value="small" selected>small</option>
+                <option value="medium">medium</option>
+                <option value="large-v3">large-v3</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Language</span>
+              <select id="languageSelect">
+                <option value="auto" selected>Auto-detect</option>
+                <option value="en">English</option>
+                <option value="af">Afrikaans</option>
+                <option value="manual">Other/manual</option>
+              </select>
+            </label>
+
+            <label id="manualLanguageField" hidden>
+              <span>Code</span>
+              <input id="manualLanguageInput" type="text" maxlength="8" placeholder="e.g. fr" />
+            </label>
+
+            <label>
+              <span>Output</span>
+              <select id="outputSelect">
+                <option value="plain" selected>Plain text .txt</option>
+                <option value="timestamped">Timestamped text .txt</option>
+                <option value="srt">Subtitles .srt</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="startButton" type="submit" class="primary" disabled>Start Transcription</button>
+            <button id="resetButton" type="button">Reset</button>
+          </div>
+        </form>
+
+        <section class="progress-section" aria-labelledby="progress-title">
+          <div class="section-header">
+            <h2 id="progress-title">Progress</h2>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <div class="progress-grid">
+            <div><span>Stage</span><strong id="stageText">Ready</strong></div>
+            <div><span>Elapsed</span><strong id="elapsedText">00:00</strong></div>
+            <div><span>Remaining</span><strong id="remainingText">--:--</strong></div>
+            <div><span>Processed</span><strong id="processedText">00:00:00 / --:--</strong></div>
+          </div>
+          <p id="statusMessage" class="status-message">Select a media file to begin.</p>
+          <p class="progress-note">Progress is estimated from processed audio timestamps.</p>
+        </section>
+
+        <section class="preview-section" aria-labelledby="preview-title">
+          <div class="section-header">
+            <h2 id="preview-title">Transcript Preview</h2>
+            <span id="detectedLanguage">Language: -</span>
+          </div>
+          <pre id="previewBox" class="preview-box">Your transcript will appear here.</pre>
+        </section>
+
+        <section id="downloadSection" class="download-section" hidden>
+          <h2>Downloads</h2>
+          <div class="download-actions">
+            <button id="downloadTxtButton" type="button">Download transcript</button>
+            <button id="downloadTimestampedButton" type="button">Download timestamped text</button>
+            <button id="downloadSrtButton" type="button">Download subtitles</button>
+          </div>
+          <h2>Generated files</h2>
+          <ul id="filesList" class="files-list"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
